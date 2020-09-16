@@ -1,28 +1,25 @@
 import React from "react";
 import ReactDOM from 'react-dom';
-import CommentDetail from "./CommentDetails";
-import ApprovalCard from "./ApprovalCard";
-import faker from "faker";
 
-const App = () => {
-    return (
-        <div className="ui container comments">
-            <ApprovalCard>
-                <CommentDetail author="Bob" timeAgo="Today at 12:00" content="Some content"
-                               imageSrc={faker.image.avatar()}/>
-            </ApprovalCard>
-            <ApprovalCard>
-                <CommentDetail author="Tom" timeAgo="Yesterday at 12:00" content="Some content"
-                               imageSrc={faker.image.avatar()}/>
-            </ApprovalCard>
+class App extends React.Component {
+    constructor(props) {
+        super(props);
 
-            <ApprovalCard>
-                <CommentDetail author="Simon" timeAgo="Yesterday at 13:00" content="Some content"
-                               imageSrc={faker.image.avatar()}/>
-            </ApprovalCard>
+        this.state = {lat: null};
 
-        </div>
-    );
-};
+        window.navigator.geolocation.getCurrentPosition(
+            position => {
+                this.setState({ lat: position.coords.latitude});
+            },
+            err => console.log(err)
+        );
+
+    }
+
+    render() {
+        return <div>Latitude: {this.state.lat}</div>
+    }
+}
+
 
 ReactDOM.render(<App/>, document.querySelector('#root'));
